@@ -1,7 +1,5 @@
-const express = require('express')
 const mongoose = require('mongoose')
-
-const app = express()
+const Todo = require('../todo')
 
 mongoose.connect('mongodb://localhost/todo-list')
 
@@ -13,14 +11,9 @@ db.on('error', () => {
 
 db.once('open', () => {
   console.log('mongodb connected!')
+
+  for (let i = 0; i < 10; i++) {
+    Todo.create({ name: `name-${i}`})
+  }
+console.log('done.')
 })
-
-
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
-
-app.listen(3000, () => {
-  console.log('App is running on port 3000')
-})
-
