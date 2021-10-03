@@ -79,10 +79,19 @@ app.get('/todos/:id/edit', (req, res) => {
 // 接edit路由
 app.post('/todos/:id/edit', (req, res) => { 
   const id = req.params.id
-  const name = req.body.name
+  const { name, isDone } = req.body
+  // const name = req.body.name
+  // const isDone = req.body.isDone
+
   return Todo.findById(id) // 差詢資料
   .then(todo => {  // 如果查詢成功 修改後重新儲存資料
     todo.name = name
+    todo.isDone = isDone === 'on'
+    // if (isDone === 'on') {
+    //   todo.isDone= true
+    // } else {
+    //   todo.isDone = false
+    // } 
     return todo.save()
   })
   .then(() => res.redirect(`/todos/${id}`)) // 如國儲存成功 導向首頁
